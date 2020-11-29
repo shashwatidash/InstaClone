@@ -4,13 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ProfileTab">
+    tools:context=".ProfileTab"
+    android:layout_margin="10dp">
 
 
     <EditText
         android:id="@+id/profileName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:ems="10"
         android:hint="Enter your profile name"
         android:inputType="textPersonName"
@@ -24,6 +26,7 @@
         android:id="@+id/profileAge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:ems="10"
         android:hint="Enter your age"
         android:inputType="number"
@@ -37,6 +40,7 @@
         android:id="@+id/profileBio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:ems="10"
         android:hint="Enter a bio"
         android:inputType="textPersonName"
@@ -50,6 +54,8 @@
         android:id="@+id/saveInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:layout_constraintCircleRadius="50px"
         android:text="SAVE INFO"
         app:layout_constraintTop_toBottomOf="@id/profileBio"/>
 

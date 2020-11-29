@@ -1,5 +1,6 @@
 package com.satwick.instaclone;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,8 +8,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.Parse;
@@ -24,12 +27,13 @@ import java.util.List;
  * Use the {@link UsersTab#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class UsersTab extends Fragment {
+public class UsersTab extends Fragment implements AdapterView.OnItemClickListener {
 
     public static final String TAG = UsersTab.class.getSimpleName();
     private ListView listView;
-    private ArrayList arrayList;
+    private ArrayList<String> arrayList;
     private ArrayAdapter arrayAdapter;
+    private TextView textViewLoading;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -79,23 +83,35 @@ public class UsersTab extends Fragment {
         listView = view.findViewById(R.id.listView);
         arrayList = new ArrayList();
         arrayAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, arrayList);
+        textViewLoading = view.findViewById(R.id.textViewLoading);
+
+        listView.setOnItemClickListener(UsersTab.this);
 
         ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
         parseQuery.whereNotEqualTo("username",ParseUser.getCurrentUser().getUsername());
         parseQuery.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> users, ParseException e) {
-                if(e == null){
+                if (e == null) {
                     if(users.size() > 0){
                         for(ParseUser user : users){
                             arrayList.add(user.getUsername());
                         }
                     }
                     listView.setAdapter(arrayAdapter);
+                    textViewLoading.animate().alpha(0).setDuration(2000);
+                    listView.setVisibility(View.VISIBLE);
                 }
             }
         });
 
         return view;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(getContext(), UserPosts.class);
+        intent.putExtra("username", arrayList.get(position));
+        startActivity(intent);
     }
 }
